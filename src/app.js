@@ -70,7 +70,6 @@ const startTimer = (rewardName, duration) => {
 
   const timeSpan = p.querySelector('.time')
   p.classList.remove('hidden')
-  container.classList.remove('hidden')
 
   if (activeTimers[rewardName]) {
     clearInterval(activeTimers[rewardName])
@@ -89,11 +88,6 @@ const startTimer = (rewardName, duration) => {
         clearInterval(activeTimers[rewardName])
         delete activeTimers[rewardName]
         p.classList.add('hidden')
-
-        // Pokud není žádný aktivní timer, skryj celý kontejner
-        if (Object.keys(activeTimers).length === 0) {
-          container.classList.add('hidden')
-        }
       }, 500)
 
       return

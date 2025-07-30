@@ -43,13 +43,23 @@
     },
     "default": "broadcaster"
   },
-  "timerAlign": {
+  "horizontalAlign": {
     "type": "dropdown",
-    "label": "Vyber možnost umístění",
+    "label": "Horizontální umístění",
     "options": {
-      "start": "Levá strana",
-      "center": "Uprostřed",
-      "end": "Pravá strana"
+      "flex-start": "Vlevo",
+      "center": "Na střed",
+      "flex-end": "Vpravo"
+    },
+    "default": "center"
+  },
+  "verticalAlign": {
+    "type": "dropdown",
+    "label": "Vertikální umístění",
+    "options": {
+      "flex-start": "Nahoře",
+      "center": "Na střed",
+      "flex-end": "Dole"
     },
     "default": "center"
   },
