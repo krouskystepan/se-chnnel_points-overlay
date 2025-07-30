@@ -1,10 +1,12 @@
 const container = document.getElementById('box')
+const sound = document.getElementById('sound')
 
 let fieldData
 const activeTimers = {} // udržíme si běžící intervaly
 
 window.addEventListener('onWidgetLoad', (obj) => {
   fieldData = obj.detail.fieldData
+  sound.volume = fieldData.volume
 
   Object.keys(fieldData).forEach((key) => {
     const value = fieldData[key]
@@ -16,11 +18,11 @@ window.addEventListener('onWidgetLoad', (obj) => {
     const sec = String(seconds % 60).padStart(2, '0')
     const formatted = `${minutes}:${sec}`
 
-    const className = name.replace(/\s+/g, '_')
+    const className = name?.replace(/\s+/g, '_')
 
     const p = document.createElement('p')
     p.classList.add('timer-wrapper')
-    p.classList.add(className) // kvůli pozdějšímu přístupu
+    p.classList.add(className)
     p.classList.add('hidden')
 
     const labelSpan = document.createElement('span')
@@ -37,17 +39,59 @@ window.addEventListener('onWidgetLoad', (obj) => {
 })
 
 const formatTime = (ms) => {
-  const totalSeconds = Math.floor(ms / 1000)
+  const totalSeconds = Math.ceil(ms / 1000) // tady používáme ceil místo floor
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0')
   const seconds = String(totalSeconds % 60).padStart(2, '0')
   return `${minutes}:${seconds}`
 }
 
+const startTimer = (rewardName, duration) => {
+  const p = document.querySelector(`p.${rewardName}`)
+  if (!p) return
+
+  const timeSpan = p.querySelector('.time')
+  p.classList.remove('hidden')
+  container.classList.remove('hidden')
+
+  if (activeTimers[rewardName]) {
+    clearInterval(activeTimers[rewardName])
+  }
+
+  const endTime = Date.now() + duration
+
+  const updateTimer = () => {
+    const remaining = endTime - Date.now()
+
+    if (remaining <= 0) {
+      timeSpan.textContent = '00:00'
+
+      sound.play()
+
+      setTimeout(() => {
+        clearInterval(activeTimers[rewardName])
+        delete activeTimers[rewardName]
+
+        p.classList.add('hidden')
+        if (Object.keys(activeTimers).length === 0) {
+          container.classList.add('hidden')
+        }
+      }, 500)
+
+      return
+    }
+
+    timeSpan.textContent = formatTime(remaining)
+  }
+
+  updateTimer()
+
+  activeTimers[rewardName] = setInterval(updateTimer, 1000)
+}
+
 window.addEventListener('onEventReceived', (obj) => {
   const event = obj.detail.event
   const rewardNameRaw = event.data?.redemption
-  if (event.type !== 'channelPointsRedemption') return
-  if (!rewardNameRaw) return
+  if (event.type !== 'channelPointsRedemption' || !rewardNameRaw) return
 
   const rewardName = rewardNameRaw.replace(/\s+/g, '_')
 
@@ -62,40 +106,6 @@ window.addEventListener('onEventReceived', (obj) => {
 
   const [_, __, secondsRaw] = entry.split(':')
   const duration = parseInt(secondsRaw, 10) * 1000
-  const endTime = Date.now() + duration
 
-  const p = document.querySelector(`p.${rewardName}`)
-  if (!p) return
-
-  const timeSpan = p.querySelector('.time')
-  p.classList.remove('hidden')
-  container.classList.remove('hidden')
-
-  // Pokud už timer běží, resetuj ho
-  if (activeTimers[rewardName]) {
-    clearInterval(activeTimers[rewardName])
-  }
-
-  timeSpan.textContent = formatTime(duration)
-
-  activeTimers[rewardName] = setInterval(() => {
-    const remaining = endTime - Date.now()
-
-    if (remaining <= 0) {
-      clearInterval(activeTimers[rewardName])
-      delete activeTimers[rewardName]
-
-      timeSpan.textContent = '00:00'
-      p.classList.add('hidden')
-
-      // Pokud už žádný timer neběží, schovej celý box
-      if (Object.keys(activeTimers).length === 0) {
-        container.classList.add('hidden')
-      }
-
-      return
-    }
-
-    timeSpan.textContent = formatTime(remaining)
-  }, 1000)
+  startTimer(rewardName, duration)
 })
