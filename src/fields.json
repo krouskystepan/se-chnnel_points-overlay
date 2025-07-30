@@ -1,0 +1,37 @@
+{
+  "timerAlign": {
+    "type": "dropdown",
+    "label": "Vyber možnost umístění",
+    "options": {
+      "start": "Levá strana",
+      "center": "Uprostřed",
+      "end": "Pravá strana"
+    },
+    "default": "center"
+  },
+  "reward_1": {
+    "type": "string",
+    "label": "Odměna 1 (VIDITELNÉ:ODMĚNA:SEC)",
+    "value": "VIDITELNE:JMENO ODMENY:3600"
+  },
+  "reward_2": {
+    "type": "string",
+    "label": "Odměna 2 (VIDITELNÉ:ODMĚNA:SEC)",
+    "value": "VIDITELNE:JMENO ODMENY:3600"
+  },
+  "reward_3": {
+    "type": "string",
+    "label": "Odměna 3 (VIDITELNÉ:ODMĚNA:SEC)",
+    "value": "VIDITELNE:JMENO ODMENY:3600"
+  },
+  "reward_4": {
+    "type": "string",
+    "label": "Odměna 4 (VIDITELNÉ:ODMĚNA:SEC)",
+    "value": "VIDITELNE:JMENO ODMENY:3600"
+  },
+  "reward_5": {
+    "type": "string",
+    "label": "Odměna 5 (VIDITELNÉ:ODMĚNA:SEC)",
+    "value": "VIDITELNE:JMENO ODMENY:3600"
+  }
+}
