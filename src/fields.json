@@ -1,4 +1,48 @@
 {
+  "createTimerCommand": {
+    "type": "text",
+    "label": "Vytvořit nový timer",
+    "value": "!ccptimer"
+  },
+  "pauseTimerCommand": {
+    "type": "text",
+    "label": "Zastavit jeden timer",
+    "value": "!pcptimer"
+  },
+  "unpauseTimerCommand": {
+    "type": "text",
+    "label": "Spustí jeden timer",
+    "value": "!upcptimer"
+  },
+  "pauseAllTimers": {
+    "type": "text",
+    "label": "Zastavit všechny timery",
+    "value": "!pcptimers"
+  },
+  "unpauseAllTimers": {
+    "type": "text",
+    "label": "Spustí všechny timery",
+    "value": "!upcptimers"
+  },
+  "deleteTimer": {
+    "type": "text",
+    "label": "Skryje timer a resetuje ho",
+    "value": "!dcptimer"
+  },
+  "privileges": {
+    "type": "dropdown",
+    "label": "Kdo může používat commandy",
+    "value": "Mods",
+    "options": {
+      "everybody": "Všichni",
+      "justSubs": "Subs",
+      "subs": "Subs + VIPs + Mods",
+      "vips": "VIPs + Mods",
+      "mods": "Mods",
+      "broadcaster": "Broadcaster"
+    },
+    "default": "broadcaster"
+  },
   "timerAlign": {
     "type": "dropdown",
     "label": "Vyber možnost umístění",
@@ -8,6 +52,14 @@
       "end": "Pravá strana"
     },
     "default": "center"
+  },
+  "volume": {
+    "type": "slider",
+    "label": "Volume",
+    "value": 1,
+    "min": 0,
+    "max": 1,
+    "steps": 0.1
   },
   "reward_1": {
     "type": "string",
