@@ -156,13 +156,15 @@ Pomocí `privileges` nastavíš, kdo může tyto commandy použít:
 
 ---
 
-## 🎨 Umístění timerů (`timerAlign`)
+## 🎨 Umístění timeru (`timerAlign`)
 
-Timer wrapper bude zarovnán podle volby:
+Timer wrapper bude zarovnán podle vybrané možnosti:
 
-- `start` – Levá strana
-- `center` – Uprostřed (výchozí)
-- `end` – Pravá strana
+- `start` – Levá / Horní strana
+- `center` – Na střed (výchozí)
+- `end` – Pravá / Dolní strana
+
+> **Poznámka:** Toto zarovnání se použije jak pro horizontální (`justify-content`), tak i vertikální (`align-items`) osu, tedy obsah bude zarovnán zároveň horizontálně i vertikálně podle zvolené hodnoty.
 
 ---
 
