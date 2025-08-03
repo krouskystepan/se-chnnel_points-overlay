@@ -100,6 +100,37 @@ const startTimer = (rewardName, duration) => {
   activeTimers[rewardName] = setInterval(updateTimer, 1000)
 }
 
+const extendTimer = (rewardName, extraDuration) => {
+  const p = document.querySelector(`p.${rewardName}`)
+  if (!p) return
+
+  const timeSpan = p.querySelector('.time')
+  if (!timeSpan) return
+
+  const [min, sec] = timeSpan.textContent.split(':').map(Number)
+  const currentMs = (min * 60 + sec) * 1000
+  let newTime = currentMs + extraDuration
+
+  if (newTime <= 0) {
+    if (activeTimers[rewardName]) {
+      clearInterval(activeTimers[rewardName])
+      delete activeTimers[rewardName]
+    }
+    if (pausedTimers[rewardName]) {
+      delete pausedTimers[rewardName]
+    }
+
+    sound.play()
+    p.classList.add('hidden')
+    const duration = getTimerDurationByRewardName(rewardName)
+    timeSpan.textContent = duration ? formatTime(duration) : '00:00'
+    return
+  }
+
+  clearInterval(activeTimers[rewardName])
+  startTimer(rewardName, newTime)
+}
+
 // Commands
 const checkPrivileges = (data, privileges) => {
   const { tags, userId } = data
@@ -128,21 +159,20 @@ const handleCommand = (obj) => {
     unpauseTimerCommand,
     pauseAllTimers,
     unpauseAllTimers,
+    adjustTimer,
     deleteTimer,
   } = fieldData
   const { text } = data
 
-  const createTimerText = text.startsWith(createTimerCommand)
-  const pauseTimerText = text.startsWith(pauseTimerCommand)
-  const unpauseTimerText = text.startsWith(unpauseTimerCommand)
-  const pauseAllTimersText = text.startsWith(pauseAllTimers)
-  const unpauseAllTimersText = text.startsWith(unpauseAllTimers)
-  const deleteTimerText = text.startsWith(deleteTimer)
+  const isCreateTimer = text.startsWith(createTimerCommand)
+  const isPauseTimer = text.startsWith(pauseTimerCommand)
+  const isUnpauseTimer = text.startsWith(unpauseTimerCommand)
+  const isPauseAllTimers = text.startsWith(pauseAllTimers)
+  const isUnpauseAllTimers = text.startsWith(unpauseAllTimers)
+  const isAdjustTimer = text.startsWith(adjustTimer)
+  const isDeleteTimer = text.startsWith(deleteTimer)
 
-  console.log(deleteTimer)
-  console.log(deleteTimerText)
-
-  if (createTimerText) {
+  if (isCreateTimer) {
     const param = text.slice(createTimerCommand.length).trim()
     const parts = param.split(':')
 
@@ -160,7 +190,7 @@ const handleCommand = (obj) => {
     }
   }
 
-  if (pauseTimerText) {
+  if (isPauseTimer) {
     const timerNameRaw = text.slice(pauseTimerCommand.length).trim()
     const timerName = timerNameRaw.replace(/\s+/g, '_')
 
@@ -177,7 +207,7 @@ const handleCommand = (obj) => {
     }
   }
 
-  if (unpauseTimerText) {
+  if (isUnpauseTimer) {
     const timerNameRaw = text.slice(unpauseTimerCommand.length).trim()
     const timerName = timerNameRaw.replace(/\s+/g, '_')
 
@@ -187,7 +217,7 @@ const handleCommand = (obj) => {
     }
   }
 
-  if (pauseAllTimersText) {
+  if (isPauseAllTimers) {
     Object.keys(activeTimers).forEach((timerName) => {
       const p = document.querySelector(`p.${timerName}`)
       if (p) {
@@ -200,18 +230,71 @@ const handleCommand = (obj) => {
     })
   }
 
-  if (unpauseAllTimersText) {
+  if (isUnpauseAllTimers) {
     Object.entries(pausedTimers).forEach(([timerName, timeLeft]) => {
       startTimer(timerName, timeLeft)
       delete pausedTimers[timerName]
     })
   }
 
-  if (deleteTimerText) {
+  if (isAdjustTimer) {
+    const param = text.slice(adjustTimer.length).trim()
+    const parts = param.split(':')
+
+    if (parts.length === 3) {
+      const action = parts[0].trim()
+      const timerNameRaw = parts[1].trim()
+      const timerName = timerNameRaw.replace(/\s+/g, '_')
+      const secondsValue = parseInt(parts[2].trim(), 10)
+
+      if (
+        (action === '+' || action === '-') &&
+        !isNaN(secondsValue) &&
+        (activeTimers[timerName] || pausedTimers[timerName])
+      ) {
+        const p = document.querySelector(`p.${timerName}`)
+        if (!p) return
+
+        const timeSpan = p.querySelector('.time')
+        if (!timeSpan) return
+
+        const [min, sec] = timeSpan.textContent.split(':').map(Number)
+        let currentMs = (min * 60 + sec) * 1000
+
+        let changeMs = secondsValue * 1000
+        if (action === '-') changeMs = -changeMs
+
+        let newTime = currentMs + changeMs
+
+        if (newTime <= 0) {
+          if (activeTimers[timerName]) {
+            clearInterval(activeTimers[timerName])
+            delete activeTimers[timerName]
+          }
+          if (pausedTimers[timerName]) {
+            delete pausedTimers[timerName]
+          }
+
+          sound.play()
+          p.classList.add('hidden')
+          const duration = getTimerDurationByRewardName(timerName)
+          timeSpan.textContent = duration ? formatTime(duration) : '00:00'
+          return
+        }
+
+        if (pausedTimers[timerName]) {
+          pausedTimers[timerName] = newTime
+        } else {
+          clearInterval(activeTimers[timerName])
+          startTimer(timerName, newTime)
+        }
+      }
+    }
+  }
+
+  if (isDeleteTimer) {
     const timerNameRaw = text.slice(deleteTimer.length).trim()
     const timerName = timerNameRaw.replace(/\s+/g, '_')
-
-    console.log('DELETE')
 
     if (activeTimers[timerName]) {
       clearInterval(activeTimers[timerName])
@@ -253,7 +336,13 @@ window.addEventListener('onEventReceived', (obj) => {
   const duration = getTimerDurationByRewardName(rewardName)
 
   if (duration !== null) {
-    startTimer(rewardName, duration)
+    if (activeTimers[rewardName]) {
+      extendTimer(rewardName, duration)
+    } else if (pausedTimers[rewardName]) {
+      pausedTimers[rewardName] += duration
+    } else {
+      startTimer(rewardName, duration)
+    }
   }
 })
 

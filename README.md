@@ -10,10 +10,11 @@ Tento overlay umožňuje správu **více nezávislých timerů**, které se zobr
 | ------------------------ | ------------------------------------------- |
 | `reward_1` až `reward_5` | Definice odměn napojených na Channel Points |
 | `createTimer`            | Chat command pro vytvoření nového timeru    |
-| `pauseTimer`             | Chat command pro pauzu jednoho timeru       |
+| `pauseTimer`             | Chat command pro zastavení jednoho timeru   |
 | `unpauseTimer`           | Chat command pro spuštění jednoho timeru    |
-| `pauseAllTimers`         | Chat command pro pauzu všech timerů         |
+| `pauseAllTimers`         | Chat command pro zastavení všech timerů     |
 | `unpauseAllTimers`       | Chat command pro spuštění všech timerů      |
+| `adjustTimer`            | Chat command pro upravování času timeru     |
 | `deleteTimer`            | Chat command pro resetování timeru          |
 | `privileges`             | Kdo může ovládat timery přes commandy       |
 | `timerAlign`             | Umístění timerů na overlayi                 |
@@ -52,25 +53,25 @@ Commandy lze volat ručně (např. když overlay restartuješ nebo chceš spusti
 ### 🔹 1. Vytvořit nový timer (dynamicky)
 
 ```
-!ccptimer <VIDITELNE>:<JMENO ODMENY>:<sekundy>
+!ccptimer <VIDITELNE V OVERLAYI>:<JMENO ODMENY>:<sekundy>
 ```
 
-Přidá nový timer do overlaye a spustí ho.
+Přidá nový timer do overlaye a spustí ho (pokud timer už existuje, tak se nic nestane => pro přidaní / odebrání času z existujícího timeru použíj jiné příkazy).
 
 **Příklad:**
 
 ```
-!ccptimer Break:Pause Mode:900
+!ccptimer Break:Break Mode:900
 ```
 
-> Vytvoří a spustí timer „Break“ s ID „Pause Mode“ na 15 minut (900 sekund).
+> Vytvoří a spustí timer „Break“ s ID „Break Mode“ na 15 minut (900 sekund).
 
 ---
 
-### 🔹 2. Pauznout jeden konkrétní timer
+### 🔹 2. Zastavit jeden konkrétní timer
 
 ```
-!pcptimer <název>
+!pcptimer <JMENO ODMENY>
 ```
 
 Pozastaví běžící timer s daným názvem.
@@ -78,17 +79,17 @@ Pozastaví běžící timer s daným názvem.
 **Příklad:**
 
 ```
-!pcptimer Zastavit čas
+!pcptimer Break Mode
 ```
 
-> Pozastaví timer s ID „Zastavit čas“.
+> Pozastaví timer s ID „Break Mode“.
 
 ---
 
 ### 🔹 3. Spustit znovu jeden konkrétní timer
 
 ```
-!upcptimer <název>
+!upcptimer <JMENO ODMENY>
 ```
 
 Spustí timer s daným názvem.
@@ -96,14 +97,14 @@ Spustí timer s daným názvem.
 **Příklad:**
 
 ```
-!upcptimer Zastavit čas
+!upcptimer Break Mode
 ```
 
-> Spustí timer „Zastavit čas“.
+> Spustí timer „Break Mode“.
 
 ---
 
-### 🔹 4. Pauznout všechny timery
+### 🔹 4. Zastavit všechny timery
 
 ```
 !pcptimers
@@ -123,10 +124,38 @@ Spustí všechny pozastavené timery.
 
 ---
 
-### 🔹 6. Resetovat (smazat) timer
+### 🔹 6. Upravit čas timeru
 
 ```
-!dcptimer <název>
+!acptimer <akce>:<JMENO ODMENY>:<sekundy>
+```
+
+Umožňuje **přidat nebo odebrat čas** z existujícího timeru.
+Akce může být:
+
+- `+` → přidá čas
+- `-` → odebere čas
+
+**Příklady:**
+
+```
+!acptimer +:Break Mode:300
+```
+
+> Přidá 5 minut (300 sekund) timeru s ID „Break Mode“.
+
+```
+!acptimer -:Break Mode:60
+```
+
+> Odebere 1 minutu (60 sekund) timeru „Break Mode“.
+
+---
+
+### 🔹 7. Resetovat (smazat) timer
+
+```
+!dcptimer <JMENO ODMENY>
 ```
 
 Resetuje daný timer s daným názvem na nulu a skryje ho v overlayi (neodstraňuje ho z DOM).
@@ -134,10 +163,10 @@ Resetuje daný timer s daným názvem na nulu a skryje ho v overlayi (neodstraň
 **Příklad:**
 
 ```
-!dcptimer Zastavit čas
+!dcptimer Break Mode
 ```
 
-> Smaže timer „Zastavit čas“ z overlaye.
+> Smaže timer „Break Mode“ z overlaye.
 
 ---
 
@@ -156,15 +185,23 @@ Pomocí `privileges` nastavíš, kdo může tyto commandy použít:
 
 ---
 
-## 🎨 Umístění timeru (`timerAlign`)
+## 🎨 Umístění timeru (`horizontalAlign` a `verticalAlign`)
 
-Timer wrapper bude zarovnán podle vybrané možnosti:
+Timer wrapper bude zarovnán samostatně podle horizontální a vertikální osy:
 
-- `start` – Levá / Horní strana
-- `center` – Na střed (výchozí)
-- `end` – Pravá / Dolní strana
+- **Horizontální umístění (`horizontalAlign`):**
 
-> **Poznámka:** Toto zarovnání se použije jak pro horizontální (`justify-content`), tak i vertikální (`align-items`) osu, tedy obsah bude zarovnán zároveň horizontálně i vertikálně podle zvolené hodnoty.
+  - `flex-start` – Vlevo
+  - `center` – Na střed (výchozí)
+  - `flex-end` – Vpravo
+
+- **Vertikální umístění (`verticalAlign`):**
+
+  - `flex-start` – Nahoře
+  - `center` – Na střed (výchozí)
+  - `flex-end` – Dole
+
+> **Poznámka:** Zarovnání se aplikuje přes CSS vlastnosti `justify-content` (horizontálně) a `align-items` (vertikálně), takže obsah timeru bude umístěn přesně podle zvolených hodnot na obou osách.
 
 ---
 

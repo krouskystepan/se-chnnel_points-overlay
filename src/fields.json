@@ -24,6 +24,11 @@
     "label": "Spustí všechny timery",
     "value": "!upcptimers"
   },
+  "adjustTimer": {
+    "type": "text",
+    "label": "Upraví čas na timeru",
+    "value": "!acptimer"
+  },
   "deleteTimer": {
     "type": "text",
     "label": "Skryje timer a resetuje ho",
