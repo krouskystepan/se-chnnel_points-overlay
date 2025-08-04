@@ -84,6 +84,15 @@
     "default": "center",
     "group": "Nastavení"
   },
+  "errorSeconds": {
+    "type": "number",
+    "label": "Čas na jak dlouho se zobrazují errory",
+    "value": 5,
+    "min": 0,
+    "max": 10,
+    "step": 1,
+    "group": "Nastavení"
+  },
   "volume": {
     "type": "slider",
     "label": "Hlasitost zvuků",

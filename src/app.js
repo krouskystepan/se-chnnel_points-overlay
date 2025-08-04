@@ -91,7 +91,7 @@ const showError = (message) => {
 
   setTimeout(() => {
     wrapper.classList.add('hidden')
-  }, 5000)
+  }, fieldData.errorSeconds * 1000)
 }
 
 const startTimer = (rewardName, duration) => {
