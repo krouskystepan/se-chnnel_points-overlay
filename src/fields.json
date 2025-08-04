@@ -17,31 +17,31 @@
     "value": "!upcptimer",
     "group": "Příkazy"
   },
-  "pauseAllTimers": {
+  "pauseAllTimersCommand": {
     "type": "text",
     "label": "Zastavit všechny timery",
     "value": "!pcptimers",
     "group": "Příkazy"
   },
-  "unpauseAllTimers": {
+  "unpauseAllTimersCommand": {
     "type": "text",
     "label": "Spustí všechny timery",
     "value": "!upcptimers",
     "group": "Příkazy"
   },
-  "adjustTimer": {
+  "adjustTimerCommand": {
     "type": "text",
     "label": "Upraví čas na timeru",
-    "value": "!atimer",
+    "value": "!acptimer",
     "group": "Příkazy"
   },
-  "deleteTimer": {
+  "deleteTimerCommand": {
     "type": "text",
     "label": "Skryje jeden timer a resetuje ho",
     "value": "!dcptimer",
     "group": "Příkazy"
   },
-  "deleteAllTimers": {
+  "deleteAllTimersCommand": {
     "type": "text",
     "label": "Skryje všechny timer a resetuje je",
     "value": "!dcptimers",

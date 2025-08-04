@@ -6,20 +6,20 @@ Tento overlay umožňuje správu **více nezávislých timerů**, které se zobr
 
 ### 🧩 Přehled nastavení (`fieldData`)
 
-| Klíč                     | Význam                                      |
-| ------------------------ | ------------------------------------------- |
-| `reward_1` až `reward_5` | Definice odměn napojených na Channel Points |
-| `createTimer`            | Chat command pro vytvoření nového timeru    |
-| `pauseTimer`             | Chat command pro zastavení jednoho timeru   |
-| `unpauseTimer`           | Chat command pro spuštění jednoho timeru    |
-| `pauseAllTimers`         | Chat command pro zastavení všech timerů     |
-| `unpauseAllTimers`       | Chat command pro spuštění všech timerů      |
-| `adjustTimer`            | Chat command pro upravování času timeru     |
-| `deleteTimer`            | Chat command pro resetování jednoho timeru  |
-| `deleteAllTimers`        | Chat command pro resetování všech timerů    |
-| `privileges`             | Kdo může ovládat timery přes commandy       |
-| `timerAlign`             | Umístění timerů na overlayi                 |
-| `volume`                 | Hlasitost zvuku po dokončení timeru         |
+| Klíč                                                   | Význam                                      |
+| ------------------------------------------------------ | ------------------------------------------- |
+| `reward_1` až `reward_5`                               | Definice odměn napojených na Channel Points |
+| [createTimer](#-1-vytvořit-nový-timer-dynamicky)       | Chat command pro vytvoření nového timeru    |
+| [pauseTimer](#-2-zastavit-jeden-timer)                 | Chat command pro zastavení jednoho timeru   |
+| [unpauseTimer](#-3-spustit-znovu-jeden-timer)          | Chat command pro spuštění jednoho timeru    |
+| [pauseAllTimers](#-4-zastavit-všechny-timery)          | Chat command pro zastavení všech timerů     |
+| [unpauseAllTimers](#-5-spustit-všechny-timery)         | Chat command pro spuštění všech timerů      |
+| [adjustTimer](#-6-upravit-čas-timeru)                  | Chat command pro upravování času timeru     |
+| [deleteTimer](#-7-resetovat-smazat-jeden-timer)        | Chat command pro resetování jednoho timeru  |
+| [deleteAllTimers](#-8-resetovat-smazat-všechny-timery) | Chat command pro resetování všech timerů    |
+| [privileges](#-kdo-může-používat-commandy)             | Kdo může ovládat timery přes commandy       |
+| [timerAlign](#-umístění-timeru)                        | Umístění timerů na overlayi                 |
+| [volume](#-zvuk-při-konci-timeru)                      | Hlasitost zvuku po dokončení timeru         |
 
 ---
 
@@ -196,7 +196,7 @@ Pomocí `privileges` nastavíš, kdo může tyto commandy použít:
 
 ---
 
-## 🎨 Umístění timeru (`horizontalAlign` a `verticalAlign`)
+## 🎨 Umístění timeru
 
 Timer wrapper bude zarovnán samostatně podle horizontální a vertikální osy:
 
