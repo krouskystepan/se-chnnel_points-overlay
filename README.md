@@ -15,7 +15,8 @@ Tento overlay umožňuje správu **více nezávislých timerů**, které se zobr
 | `pauseAllTimers`         | Chat command pro zastavení všech timerů     |
 | `unpauseAllTimers`       | Chat command pro spuštění všech timerů      |
 | `adjustTimer`            | Chat command pro upravování času timeru     |
-| `deleteTimer`            | Chat command pro resetování timeru          |
+| `deleteTimer`            | Chat command pro resetování jednoho timeru  |
+| `deleteAllTimers`        | Chat command pro resetování všech timerů    |
 | `privileges`             | Kdo může ovládat timery přes commandy       |
 | `timerAlign`             | Umístění timerů na overlayi                 |
 | `volume`                 | Hlasitost zvuku po dokončení timeru         |
@@ -68,7 +69,7 @@ Přidá nový timer do overlaye a spustí ho (pokud timer už existuje, tak se n
 
 ---
 
-### 🔹 2. Zastavit jeden konkrétní timer
+### 🔹 2. Zastavit jeden timer
 
 ```
 !pcptimer <JMENO ODMENY>
@@ -86,7 +87,7 @@ Pozastaví běžící timer s daným názvem.
 
 ---
 
-### 🔹 3. Spustit znovu jeden konkrétní timer
+### 🔹 3. Spustit znovu jeden timer
 
 ```
 !upcptimer <JMENO ODMENY>
@@ -152,7 +153,7 @@ Akce může být:
 
 ---
 
-### 🔹 7. Resetovat (smazat) timer
+### 🔹 7. Resetovat (smazat) jeden timer
 
 ```
 !dcptimer <JMENO ODMENY>
@@ -167,6 +168,16 @@ Resetuje daný timer s daným názvem na nulu a skryje ho v overlayi (neodstraň
 ```
 
 > Smaže timer „Break Mode“ z overlaye.
+
+---
+
+### 🔹 8. Resetovat (smazat) všechny timery
+
+```
+!dcptimers
+```
+
+Resetuje všechny (smaže) timery na nulu a skryje je v overlayi (neodstraňuje ho z DOM).
 
 ---
 

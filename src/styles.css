@@ -5,17 +5,26 @@
   margin: 0;
 }
 
-#box {
+#wrapper {
+  padding: 0.5rem;
+  border: 2px solid green;
   display: flex;
   flex-direction: column;
-  height: 100%;
   gap: 0.25rem;
-  margin: 0.5rem;
+  height: 100%;
+}
+
+#timers-wrapper {
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .timer-wrapper {
   background-color: #222;
   color: #fff;
+  width: max-content;
   padding: 0.8rem 1.5rem;
   border-radius: 0.65rem;
   font-size: 1.5rem;
@@ -28,4 +37,16 @@
 
 .time {
   font-weight: bold;
+}
+
+#error-wrapper {
+  background-color: #222;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: salmon;
+  font-size: 1.25rem;
+}
+
+#error-text {
+  color: white;
 }

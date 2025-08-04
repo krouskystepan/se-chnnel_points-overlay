@@ -1,12 +1,19 @@
-<div id="box" class="box" style="justify-content: {horizontalAlign}; align-items: {verticalAlign};">
-    <!-- This will render -->
-    <!-- <p class="timer-wrapper">
-        <span>Chaos:<span/>
-        <span class="timer">00:00<span/>
-    <p/>
+<div id="wrapper" style="justify-content: {{verticalAlign}}; align-items: {{horizontalAlign}};">
+    <div id="timers-wrapper" style="justify-content: {{verticalAlign}}; align-items: {{horizontalAlign}};">
+        <!-- Timery se tady vykreslí -->
+        <!-- <p class="timer-wrapper">
+      <span>Chaos OFF:</span>
+      <span class="time">00:00</span>
+    </p>
     <p class="timer-wrapper">
-        <span>Chaos:<span/>
-        <span class="timer">00:00<span/>
-    <p/> -->
-    <div />
-    <audio src="https://krouskystepan.github.io/se-chnnel_points-overlay/assets/sound.mp3" id="sound" />
+      <span>Chaos:</span>
+      <span class="time">00:00</span>
+    </p> -->
+
+    </div>
+    <div id="error-wrapper" class="hidden">
+        <p>Error: <span id="error-text"></span></p>
+    </div>
+</div>
+
+<audio src="https://krouskystepan.github.io/se-chnnel_points-overlay/assets/sound.mp3" id="sound"></audio>

@@ -2,37 +2,50 @@
   "createTimerCommand": {
     "type": "text",
     "label": "Vytvořit nový timer",
-    "value": "!ccptimer"
+    "value": "!ccptimer",
+    "group": "Příkazy"
   },
   "pauseTimerCommand": {
     "type": "text",
     "label": "Zastavit jeden timer",
-    "value": "!pcptimer"
+    "value": "!pcptimer",
+    "group": "Příkazy"
   },
   "unpauseTimerCommand": {
     "type": "text",
     "label": "Spustí jeden timer",
-    "value": "!upcptimer"
+    "value": "!upcptimer",
+    "group": "Příkazy"
   },
   "pauseAllTimers": {
     "type": "text",
     "label": "Zastavit všechny timery",
-    "value": "!pcptimers"
+    "value": "!pcptimers",
+    "group": "Příkazy"
   },
   "unpauseAllTimers": {
     "type": "text",
     "label": "Spustí všechny timery",
-    "value": "!upcptimers"
+    "value": "!upcptimers",
+    "group": "Příkazy"
   },
   "adjustTimer": {
     "type": "text",
     "label": "Upraví čas na timeru",
-    "value": "!acptimer"
+    "value": "!atimer",
+    "group": "Příkazy"
   },
   "deleteTimer": {
     "type": "text",
-    "label": "Skryje timer a resetuje ho",
-    "value": "!dcptimer"
+    "label": "Skryje jeden timer a resetuje ho",
+    "value": "!dcptimer",
+    "group": "Příkazy"
+  },
+  "deleteAllTimers": {
+    "type": "text",
+    "label": "Skryje všechny timer a resetuje je",
+    "value": "!dcptimers",
+    "group": "Příkazy"
   },
   "privileges": {
     "type": "dropdown",
@@ -46,7 +59,8 @@
       "mods": "Mods",
       "broadcaster": "Broadcaster"
     },
-    "default": "broadcaster"
+    "default": "broadcaster",
+    "group": "Nastavení"
   },
   "horizontalAlign": {
     "type": "dropdown",
@@ -56,7 +70,8 @@
       "center": "Na střed",
       "flex-end": "Vpravo"
     },
-    "default": "center"
+    "default": "center",
+    "group": "Nastavení"
   },
   "verticalAlign": {
     "type": "dropdown",
@@ -66,39 +81,46 @@
       "center": "Na střed",
       "flex-end": "Dole"
     },
-    "default": "center"
+    "default": "center",
+    "group": "Nastavení"
   },
   "volume": {
     "type": "slider",
-    "label": "Volume",
+    "label": "Hlasitost zvuků",
     "value": 1,
     "min": 0,
     "max": 1,
-    "steps": 0.1
+    "steps": 0.1,
+    "group": "Nastavení"
   },
   "reward_1": {
     "type": "string",
     "label": "Odměna 1 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600"
+    "value": "VIDITELNE:JMENO ODMENY:3600",
+    "group": "Odměny"
   },
   "reward_2": {
     "type": "string",
     "label": "Odměna 2 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600"
+    "value": "VIDITELNE:JMENO ODMENY:3600",
+    "group": "Odměny"
   },
   "reward_3": {
     "type": "string",
     "label": "Odměna 3 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600"
+    "value": "VIDITELNE:JMENO ODMENY:3600",
+    "group": "Odměny"
   },
   "reward_4": {
     "type": "string",
     "label": "Odměna 4 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600"
+    "value": "VIDITELNE:JMENO ODMENY:3600",
+    "group": "Odměny"
   },
   "reward_5": {
     "type": "string",
     "label": "Odměna 5 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600"
+    "value": "VIDITELNE:JMENO ODMENY:3600",
+    "group": "Odměny"
   }
 }

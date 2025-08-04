@@ -1,4 +1,4 @@
-const container = document.getElementById('box')
+const container = document.getElementById('timers-wrapper')
 const sound = document.getElementById('sound')
 
 let fieldData
@@ -41,6 +41,21 @@ const setupTimersFromFieldData = (fieldDataObj) => {
 }
 
 // Main Logic
+const showError = (message) => {
+  const wrapper = document.getElementById('error-wrapper')
+  if (!wrapper) return
+
+  const textElement = document.getElementById('error-text')
+  if (!textElement) return
+
+  textElement.textContent = message
+  wrapper.classList.remove('hidden')
+
+  setTimeout(() => {
+    wrapper.classList.add('hidden')
+  }, 5000)
+}
+
 const formatTime = (ms) => {
   const totalSeconds = Math.ceil(ms / 1000)
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0')
@@ -161,6 +176,7 @@ const handleCommand = (obj) => {
     unpauseAllTimers,
     adjustTimer,
     deleteTimer,
+    deleteAllTimers,
   } = fieldData
   const { text } = data
 
@@ -171,6 +187,7 @@ const handleCommand = (obj) => {
   const isUnpauseAllTimers = text.startsWith(unpauseAllTimers)
   const isAdjustTimer = text.startsWith(adjustTimer)
   const isDeleteTimer = text.startsWith(deleteTimer)
+  const isDeleteAllTimers = text.startsWith(deleteAllTimers)
 
   if (isCreateTimer) {
     const param = text.slice(createTimerCommand.length).trim()
@@ -181,12 +198,20 @@ const handleCommand = (obj) => {
       const name = parts[1].trim()
       const seconds = parseInt(parts[2].trim(), 10)
 
+      if (activeTimers[name]) {
+        return showError('Timer už existuje')
+      }
+
       if (!isNaN(seconds) && seconds > 0) {
         createTimerElement(label, name, seconds)
 
         const className = name.replace(/\s+/g, '_')
         startTimer(className, seconds * 1000)
+      } else {
+        showError('Neplatná syntaxe příkazu')
       }
+    } else {
+      showError('Neplatná syntaxe příkazu')
     }
   }
 
@@ -204,6 +229,8 @@ const handleCommand = (obj) => {
 
       clearInterval(activeTimers[timerName])
       delete activeTimers[timerName]
+    } else {
+      showError('Timer nenalezen')
     }
   }
 
@@ -214,6 +241,8 @@ const handleCommand = (obj) => {
     if (pausedTimers[timerName]) {
       startTimer(timerName, pausedTimers[timerName])
       delete pausedTimers[timerName]
+    } else {
+      showError('Timer nenalezen')
     }
   }
 
@@ -280,6 +309,8 @@ const handleCommand = (obj) => {
           const duration = getTimerDurationByRewardName(timerName)
           timeSpan.textContent = duration ? formatTime(duration) : '00:00'
           return
+        } else {
+          showError('Neplatný čas')
         }
 
         if (pausedTimers[timerName]) {
@@ -288,7 +319,11 @@ const handleCommand = (obj) => {
           clearInterval(activeTimers[timerName])
           startTimer(timerName, newTime)
         }
+      } else {
+        showError('Neplatná syntaxe příkazu')
       }
+    } else {
+      showError('Neplatná syntaxe příkazu')
     }
   }
 
@@ -299,9 +334,10 @@ const handleCommand = (obj) => {
     if (activeTimers[timerName]) {
       clearInterval(activeTimers[timerName])
       delete activeTimers[timerName]
-    }
-    if (pausedTimers[timerName]) {
+    } else if (pausedTimers[timerName]) {
       delete pausedTimers[timerName]
+    } else {
+      showError('Timer nenalezen')
     }
 
     const p = document.querySelector(`p.${timerName}`)
@@ -315,6 +351,45 @@ const handleCommand = (obj) => {
         timeSpan.textContent = formatTime(duration)
       } else {
         timeSpan.textContent = '00:00'
+      }
+    }
+  }
+
+  if (isDeleteAllTimers) {
+    for (const name in activeTimers) {
+      clearInterval(activeTimers[name])
+      delete activeTimers[name]
+
+      const p = document.querySelector(`p.${name}`)
+      if (p) {
+        p.classList.add('hidden')
+
+        const timeSpan = p.querySelector('.time')
+        const duration = getTimerDurationByRewardName(name)
+
+        if (duration !== null) {
+          timeSpan.textContent = formatTime(duration)
+        } else {
+          timeSpan.textContent = '00:00'
+        }
+      }
+    }
+
+    for (const name in pausedTimers) {
+      delete pausedTimers[name]
+
+      const p = document.querySelector(`p.${name}`)
+      if (p) {
+        p.classList.add('hidden')
+
+        const timeSpan = p.querySelector('.time')
+        const duration = getTimerDurationByRewardName(name)
+
+        if (duration !== null) {
+          timeSpan.textContent = formatTime(duration)
+        } else {
+          timeSpan.textContent = '00:00'
+        }
       }
     }
   }
