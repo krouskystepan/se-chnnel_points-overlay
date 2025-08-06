@@ -25,7 +25,7 @@ const formatTime = (ms) => {
   return `${minutes}:${seconds}`
 }
 
-const getTimerDurationByRewardName = (rewardName) => {
+const getValuesByRewardName = (rewardName) => {
   const entry = Object.entries(fieldData).find(([key, val]) => {
     if (!val || typeof val !== 'string') return false
     if (!key.toLowerCase().includes('reward')) return false
@@ -37,14 +37,14 @@ const getTimerDurationByRewardName = (rewardName) => {
   if (!entry) return null
 
   const [, value] = entry
-  const [, , secondsRaw] = value.split(':')
-  return parseInt(secondsRaw, 10) * 1000
+  const [label, _, secondsRaw] = value.split(':')
+  return [label, rewardName, parseInt(secondsRaw, 10) * 1000]
 }
 
 // Setup
-const createTimerElement = (label, name, seconds) => {
+const createTimerElement = (label, rewardName, seconds) => {
   const formatted = formatTime(seconds * 1000)
-  const className = extractTimerName(name)
+  const className = extractTimerName(rewardName)
 
   const p = document.createElement('p')
   p.classList.add('timer-wrapper', className, 'hidden')
@@ -77,9 +77,13 @@ const showError = (message) => {
   }, fieldData.errorSeconds * 1000)
 }
 
-const startTimer = (rewardName, duration) => {
-  const p = document.querySelector(`p.${rewardName}`)
-  if (!p) return
+const startTimer = (rewardName, duration, label) => {
+  let p = document.querySelector(`p.${rewardName}`)
+
+  if (!p) {
+    createTimerElement(label, rewardName, duration / 1000)
+    p = document.querySelector(`p.${rewardName}`)
+  }
 
   const timeSpan = p.querySelector('.time')
   p.classList.remove('hidden')
@@ -94,14 +98,14 @@ const startTimer = (rewardName, duration) => {
     const remaining = endTime - Date.now()
 
     if (remaining <= 0) {
-      timeSpan.textContent = '00:00'
       end_sound.play()
+      timeSpan.textContent = '00:00'
 
       setTimeout(() => {
         clearInterval(activeTimers[rewardName])
         delete activeTimers[rewardName]
-        p.classList.add('hidden')
-      }, 3000)
+        removeTimerElement(rewardName)
+      }, 5000)
 
       return
     }
@@ -135,7 +139,7 @@ const extendTimer = (rewardName, extraDuration) => {
 
     sound.play()
     p.classList.add('hidden')
-    const duration = getTimerDurationByRewardName(rewardName)
+    const [, , duration] = getValuesByRewardName(rewardName)
     timeSpan.textContent = duration ? formatTime(duration) : '00:00'
     return
   }
@@ -301,7 +305,7 @@ const handleCommand = (obj) => {
 
           sound.play()
           p.classList.add('hidden')
-          const duration = getTimerDurationByRewardName(timerName)
+          const [, , duration] = getValuesByRewardName(timerName)
           timeSpan.textContent = duration ? formatTime(duration) : '00:00'
           return
         }
@@ -344,18 +348,19 @@ window.addEventListener('onEventReceived', (obj) => {
   if (event.type !== 'channelPointsRedemption' || !rewardNameRaw) return
 
   const rewardName = extractTimerName(rewardNameRaw)
-  const duration = getTimerDurationByRewardName(rewardName)
+  const [label, _, duration] = getValuesByRewardName(rewardName)
 
   if (duration !== null) {
+    console.log('VYZVEDNUTO')
+
     if (activeTimers[rewardName]) {
       extendTimer(rewardName, duration)
     } else if (pausedTimers[rewardName]) {
       pausedTimers[rewardName] += duration
     } else {
-      startTimer(rewardName, duration)
+      startTimer(rewardName, duration, label)
     }
 
-    sound.currentTime = 0
     buy_sound.play()
   }
 })
