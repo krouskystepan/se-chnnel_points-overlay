@@ -142,7 +142,7 @@ const startTimer = (rewardName, duration, label) => {
   activeTimers[rewardName] = setInterval(updateTimer, 1000)
 }
 
-const extendTimer = (rewardName, extraDuration) => {
+const extendTimer = (rewardName, msDuration) => {
   const p = document.querySelector(`p.${rewardName}`)
   if (!p) return
 
@@ -151,7 +151,7 @@ const extendTimer = (rewardName, extraDuration) => {
 
   const [min, sec] = timeSpan.textContent.split(':').map(Number)
   const currentMs = (min * 60 + sec) * 1000
-  let newTime = currentMs + extraDuration
+  let newTime = currentMs + msDuration
 
   if (newTime <= 0) {
     if (activeTimers[rewardName]) {
@@ -162,10 +162,13 @@ const extendTimer = (rewardName, extraDuration) => {
       delete pausedTimers[rewardName]
     }
 
-    sound.play()
-    p.classList.add('hidden')
-    const [, , duration] = getValuesByRewardName(rewardName)
-    timeSpan.textContent = duration ? formatTime(duration) : '00:00'
+    end_sound.play()
+
+    timeSpan.textContent = '00:00'
+
+    setTimeout(() => {
+      removeTimerElement(rewardName)
+    }, 4000)
     return
   }
 
@@ -310,37 +313,8 @@ const handleCommand = (obj) => {
           return showError('Timer nenalezen')
         }
 
-        const p = document.querySelector(`p.${timerName}`)
-        if (!p) return
-
-        const timeSpan = p.querySelector('.time')
-        if (!timeSpan) return
-
-        const [min, sec] = timeSpan.textContent.split(':').map(Number)
-        let currentMs = (min * 60 + sec) * 1000
-        let changeMs = (action === '-' ? -1 : 1) * secondsValue * 1000
-        let newTime = currentMs + changeMs
-
-        if (newTime <= 0) {
-          if (activeTimers[timerName]) {
-            clearInterval(activeTimers[timerName])
-            delete activeTimers[timerName]
-          }
-          if (pausedTimers[timerName]) delete pausedTimers[timerName]
-
-          sound.play()
-          p.classList.add('hidden')
-          const [, , duration] = getValuesByRewardName(timerName)
-          timeSpan.textContent = duration ? formatTime(duration) : '00:00'
-          return
-        }
-
-        if (pausedTimers[timerName]) {
-          pausedTimers[timerName] = newTime
-        } else {
-          clearInterval(activeTimers[timerName])
-          startTimer(timerName, newTime)
-        }
+        const msChange = (action === '-' ? -1 : 1) * secondsValue * 1000
+        extendTimer(timerName, msChange)
       } else {
         showError('Neplatná syntaxe příkazu')
       }
@@ -363,7 +337,8 @@ const handleCommand = (obj) => {
 // Listeners
 window.addEventListener('onWidgetLoad', (obj) => {
   fieldData = obj.detail.fieldData
-  sound.volume = fieldData.volume
+  buy_sound.volume = fieldData.volume
+  end_sound.volume = fieldData.volume
   setupTimersFromFieldData(fieldData)
 })
 
