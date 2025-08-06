@@ -84,15 +84,6 @@
     "default": "center",
     "group": "Nastavení"
   },
-  "errorSeconds": {
-    "type": "number",
-    "label": "Čas na jak dlouho se zobrazují errory",
-    "value": 5,
-    "min": 0,
-    "max": 10,
-    "step": 1,
-    "group": "Nastavení"
-  },
   "volume": {
     "type": "slider",
     "label": "Hlasitost zvuků",
@@ -102,34 +93,64 @@
     "steps": 0.1,
     "group": "Nastavení"
   },
-  "reward_1": {
+  "timer_reward_1": {
     "type": "string",
-    "label": "Odměna 1 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600",
-    "group": "Odměny"
+    "label": "Odměna 1 (VIDITELNE:JMENO ODMENY:SEC)",
+    "value": "",
+    "group": "Timer Odměny"
   },
-  "reward_2": {
+  "timer_reward_2": {
     "type": "string",
-    "label": "Odměna 2 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600",
-    "group": "Odměny"
+    "label": "Odměna 2 (VIDITELNE:JMENO ODMENY:SEC)",
+    "value": "",
+    "group": "Timer Odměny"
   },
-  "reward_3": {
+  "timer_reward_3": {
     "type": "string",
-    "label": "Odměna 3 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600",
-    "group": "Odměny"
+    "label": "Odměna 3 (VIDITELNE:JMENO ODMENY:SEC)",
+    "value": "",
+    "group": "Timer Odměny"
   },
-  "reward_4": {
+  "timer_reward_4": {
     "type": "string",
-    "label": "Odměna 4 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600",
-    "group": "Odměny"
+    "label": "Odměna 4 (VIDITELNE:JMENO ODMENY:SEC)",
+    "value": "",
+    "group": "Timer Odměny"
   },
-  "reward_5": {
+  "timer_reward_5": {
     "type": "string",
-    "label": "Odměna 5 (VIDITELNÉ:ODMĚNA:SEC)",
-    "value": "VIDITELNE:JMENO ODMENY:3600",
-    "group": "Odměny"
+    "label": "Odměna 5 (VIDITELNE:JMENO ODMENY:SEC)",
+    "value": "",
+    "group": "Timer Odměny"
+  },
+  "oneTime_reward_1": {
+    "type": "string",
+    "label": "Odměna 1 (VIDITELNE:JMENO ODMENY)",
+    "value": "",
+    "group": "Jednorázové Odměny"
+  },
+  "oneTime_reward_2": {
+    "type": "string",
+    "label": "Odměna 2 (VIDITELNE:JMENO ODMENY)",
+    "value": "",
+    "group": "Jednorázové Odměny"
+  },
+  "oneTime_reward_3": {
+    "type": "string",
+    "label": "Odměna 3 (VIDITELNE:JMENO ODMENY)",
+    "value": "",
+    "group": "Jednorázové Odměny"
+  },
+  "oneTime_reward_4": {
+    "type": "string",
+    "label": "Odměna 4 (VIDITELNE:JMENO ODMENY)",
+    "value": "",
+    "group": "Jednorázové Odměny"
+  },
+  "oneTime_reward_5": {
+    "type": "string",
+    "label": "Odměna 5 (VIDITELNE:JMENO ODMENY)",
+    "value": "",
+    "group": "Jednorázové Odměny"
   }
 }

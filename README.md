@@ -23,25 +23,58 @@ Tento overlay umožňuje správu **více nezávislých timerů**, které se zobr
 
 ---
 
-## 🔔 Odměny (Channel Points)
+## 🎁 Odměny
 
-Každý `reward_X` definuje jeden timer:
+Nastav si, jak se mají na overlayi zobrazovat odměny z Twitch Channel Points – buď jako časované timery nebo jednorázově.
+
+### ⏱️ Timer Odměny
+
+Každá proměnná `timer_reward_X` definuje jeden **časovač**, který se spustí po vyvolání konkrétní CP odměny.
+
+📌 **Formát hodnoty:**
 
 ```
-VIDITELNE:JMENO ODMENY:3600
+VIDITELNE:JMENO ODMENY:SEC
 ```
 
-| Část           | Význam                                                      |
-| -------------- | ----------------------------------------------------------- |
-| `VIDITELNE`    | Text, který se zobrazí na overlayi (např. „Break“, „Chaos“) |
-| `JMENO ODMENY` | Přesný název CP odměny z Twitchu (musí sedět přesně)        |
-| `3600`         | Délka timeru v sekundách (např. 3600 = 1 hodina)            |
+| Část           | Význam                                                                   |
+| -------------- | ------------------------------------------------------------------------ |
+| `VIDITELNE`    | Text, který se zobrazí na overlayi (např. `Break`, `Chaos`, `Zatemnění`) |
+| `JMENO ODMENY` | Přesný název Twitch Channel Point odměny (musí se shodovat 1:1)          |
+| `SEC`          | Délka timeru v sekundách (např. `3600` = 1 hodina, `600` = 10 minut)     |
 
-📝 Příklad:
+📝 **Příklad:**
 
 ```
 Zatemnění:Blind Mode:600
 ```
+
+Tento zápis vytvoří timer s textem `Zatemnění` na overlayi, když si někdo vyzvedne CP odměnu s názvem `Blind Mode`. Timer poběží 10 minut.
+
+---
+
+### 🚨 Jednorázové Odměny
+
+Každá proměnná `oneTime_reward_X` definuje **jednorázovou odměnu**, která se krátce zobrazí na overlayi bez časovače.
+
+📌 **Formát hodnoty:**
+
+```
+VIDITELNE:JMENO ODMENY
+```
+
+| Část           | Význam                                                             |
+| -------------- | ------------------------------------------------------------------ |
+| `VIDITELNE`    | Text, který se zobrazí na overlayi (např. `Jump`, `Spin`, `Boom!`) |
+| `JMENO ODMENY` | Přesný název Twitch Channel Point odměny (musí se shodovat 1:1)    |
+
+📝 **Příklad:**
+
+```
+Jump:Jumping Time
+```
+
+Tento zápis zobrazí text `Jump` na overlayi, když si někdo vyzvedne CP odměnu `Jumping Time`.
 
 ---
 

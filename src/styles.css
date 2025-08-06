@@ -13,10 +13,21 @@
   height: 100%;
 }
 
+#oneTime-wrapper,
 #timers-wrapper {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+.oneTime-wrapper {
+  background-color: #555;
+  color: #fff;
+  width: max-content;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.65rem;
+  font-size: 1.5rem;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .timer-wrapper {
