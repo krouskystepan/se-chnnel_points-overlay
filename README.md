@@ -54,7 +54,7 @@ Commandy lze volat ručně (např. když overlay restartuješ nebo chceš spusti
 ### 🔹 1. Vytvořit nový timer (dynamicky)
 
 ```
-!ccptimer <VIDITELNE V OVERLAYI>:<JMENO ODMENY>:<sekundy>
+!ccptimer <VIDITELNE>:<JMENO ODMENY>:<sekundy>
 ```
 
 Přidá nový timer do overlaye a spustí ho (pokud timer už existuje, tak se nic nestane => pro přidaní / odebrání času z existujícího timeru použíj jiné příkazy).
@@ -159,7 +159,7 @@ Akce může být:
 !dcptimer <JMENO ODMENY>
 ```
 
-Resetuje daný timer s daným názvem na nulu a skryje ho v overlayi (neodstraňuje ho z DOM).
+Resetuje daný timer s daným názvem v overlayi (odstraní ho z DOM).
 
 **Příklad:**
 
@@ -177,7 +177,7 @@ Resetuje daný timer s daným názvem na nulu a skryje ho v overlayi (neodstraň
 !dcptimers
 ```
 
-Resetuje všechny (smaže) timery na nulu a skryje je v overlayi (neodstraňuje ho z DOM).
+Resetuje všechny timery v overlayi (odstraní je z DOM).
 
 ---
 

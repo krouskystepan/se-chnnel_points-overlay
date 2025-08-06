@@ -1,5 +1,6 @@
 const container = document.getElementById('timers-wrapper')
-const sound = document.getElementById('sound')
+const end_sound = document.getElementById('end-sound')
+const buy_sound = document.getElementById('buy-sound')
 
 let fieldData
 const activeTimers = {}
@@ -10,14 +11,11 @@ const extractTimerName = (text) => {
   return text.trim().replace(/\s+/g, '_')
 }
 
-const resetTimerDisplay = (name) => {
+const removeTimerElement = (name) => {
   const p = document.querySelector(`p.${name}`)
-  if (!p) return
-
-  p.classList.add('hidden')
-  const timeSpan = p.querySelector('.time')
-  const duration = getTimerDurationByRewardName(name)
-  timeSpan.textContent = duration ? formatTime(duration) : '00:00'
+  if (p && p.parentNode) {
+    p.parentNode.removeChild(p)
+  }
 }
 
 const formatTime = (ms) => {
@@ -63,21 +61,6 @@ const createTimerElement = (label, name, seconds) => {
   container.appendChild(p)
 }
 
-const setupTimersFromFieldData = (fieldDataObj) => {
-  Object.entries(fieldDataObj).forEach(([key, value]) => {
-    if (!key.toLowerCase().includes('reward')) return
-    if (typeof value !== 'string') return
-    if (!value) return
-    const parts = value.split(':')
-    if (parts.length < 3) return
-    const [label, name, secondsRaw] = parts
-    if (!name) return
-    const seconds = parseInt(secondsRaw, 10)
-    if (isNaN(seconds)) return
-    createTimerElement(label, name, seconds)
-  })
-}
-
 // Main Logic
 const showError = (message) => {
   const wrapper = document.getElementById('error-wrapper')
@@ -112,13 +95,13 @@ const startTimer = (rewardName, duration) => {
 
     if (remaining <= 0) {
       timeSpan.textContent = '00:00'
-      sound.play()
+      end_sound.play()
 
       setTimeout(() => {
         clearInterval(activeTimers[rewardName])
         delete activeTimers[rewardName]
         p.classList.add('hidden')
-      }, 500)
+      }, 3000)
 
       return
     }
@@ -256,13 +239,7 @@ const handleCommand = (obj) => {
           return showError('Timer nenalezen')
         }
 
-        const p = document.querySelector(`p.${timerName}`)
-        if (p) {
-          p.classList.add('hidden')
-          const timeSpan = p.querySelector('.time')
-          const duration = getTimerDurationByRewardName(timerName)
-          timeSpan.textContent = duration ? formatTime(duration) : '00:00'
-        }
+        removeTimerElement(timerName)
       }
       break
 
@@ -344,11 +321,11 @@ const handleCommand = (obj) => {
       for (const name in activeTimers) {
         clearInterval(activeTimers[name])
         delete activeTimers[name]
-        resetTimerDisplay(name)
+        removeTimerElement(name)
       }
       for (const name in pausedTimers) {
         delete pausedTimers[name]
-        resetTimerDisplay(name)
+        removeTimerElement(name)
       }
       break
   }
@@ -377,6 +354,9 @@ window.addEventListener('onEventReceived', (obj) => {
     } else {
       startTimer(rewardName, duration)
     }
+
+    sound.currentTime = 0
+    buy_sound.play()
   }
 })
 
